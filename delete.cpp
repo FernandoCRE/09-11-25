@@ -1,0 +1,156 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+
+template<class T>
+struct asc
+{
+    bool operator()(T pos, T val)
+    {
+        return pos < val;
+    }
+};
+
+template<class T>
+struct des
+{
+    bool operator()(T pos, T val)
+    {
+        return pos > val;
+    }
+};
+
+template<class T, class U, int N = 100>
+class orden
+{
+    T A[N];
+    int n = 0;
+    int max = N;
+    U comp;
+public:
+
+    void print()
+    {
+        for (T* i = A; i < A + n; i++)
+            cout << *i << " - ";
+        cout << endl;
+    }
+
+    bool add(T val)
+    {
+        T* p;
+
+        if (n == max) return false;
+
+        if (!find(val, p))
+        {
+            if (!p)
+            {
+                *A = val;
+                n++;
+            }
+            else
+            {
+                for (T* tmp = A + n; tmp > p; tmp--)
+                    *tmp = *(tmp - 1);
+                *p = val;
+                n++;
+            }
+        }
+
+        return true;
+    }
+
+    bool find(T val, T*& pos)
+    {
+        pos = NULL;
+
+        if (n == 0)
+            return false;
+        pos = A;
+        for (; pos < A + n && comp(*pos, val); pos++);
+        if (pos == A + n)
+            return false;
+        if (*pos == val)
+            return true;
+        else
+            return false;
+
+    }
+
+    /*bool del(T val)
+    {
+        T* p;
+
+        if (n == 0 || !find(val, p)) return false;
+
+        else
+        {
+            for (T* tmp = p; tmp < A + n - 1; tmp++)
+                *tmp = *(tmp + 1);
+
+            n--;
+        }
+
+        return true;
+    }*/
+
+    bool del(T val)
+    {
+        T* p;
+
+        // 0) vacío o no existe -> no borra
+        if (n == 0 || !find(val, p))
+            return false;
+
+        // 1) si es el último, no hay que desplazar nada
+        if (p == A + n - 1) {
+            n--;                 // borra "acortando" el tamaño
+            return true;
+        }
+
+        // 2) si es el primero o está en medio, desplazamos a la izquierda
+        for (T* tmp = p; tmp < A + n - 1; ++tmp)
+            *tmp = *(tmp + 1);
+
+        n--;                     // reduce el conteo tras compactar
+        return true;
+    }
+
+
+};
+
+int main()
+{
+    orden<int, des<int>, 10> obj;
+
+    obj.print();
+    obj.add(5);
+    obj.print();
+    obj.add(1);
+    obj.print();
+    obj.add(8);
+    obj.print();
+    obj.add(3);
+    obj.print();
+    obj.add(6);
+    obj.print();
+    obj.add(6);
+    obj.print();
+
+    obj.del(8);    // 8 
+    obj.print();
+
+    obj.del(1);    // 1 
+    obj.print();
+
+    obj.del(5);    // 5 
+    obj.print();
+
+    obj.del(6);    // 6
+    obj.print();
+
+    obj.del(3);    // fin
+    obj.print();
+}
