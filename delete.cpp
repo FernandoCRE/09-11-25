@@ -100,21 +100,21 @@ public:
     {
         T* p;
 
-        // 0) vacío o no existe -> no borra
+        
         if (n == 0 || !find(val, p))
             return false;
 
-        // 1) si es el último, no hay que desplazar nada
+        
         if (p == A + n - 1) {
-            n--;                 // borra "acortando" el tamaño
+            n--;                 
             return true;
         }
 
-        // 2) si es el primero o está en medio, desplazamos a la izquierda
+        
         for (T* tmp = p; tmp < A + n - 1; ++tmp)
             *tmp = *(tmp + 1);
 
-        n--;                     // reduce el conteo tras compactar
+        n--;                     
         return true;
     }
 
@@ -153,4 +153,5 @@ int main()
 
     obj.del(3);    // fin
     obj.print();
+
 }
