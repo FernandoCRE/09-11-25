@@ -79,22 +79,7 @@ public:
 
     }
 
-    /*bool del(T val)
-    {
-        T* p;
 
-        if (n == 0 || !find(val, p)) return false;
-
-        else
-        {
-            for (T* tmp = p; tmp < A + n - 1; tmp++)
-                *tmp = *(tmp + 1);
-
-            n--;
-        }
-
-        return true;
-    }*/
 
     bool del(T val)
     {
@@ -155,3 +140,4 @@ int main()
     obj.print();
 
 }
+
